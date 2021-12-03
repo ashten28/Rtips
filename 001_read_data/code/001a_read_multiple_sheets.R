@@ -8,7 +8,7 @@
 library(readxl)
 
 # Set file path for the workbook with multiple sheet
-wb_path <- "001_read_multiple_sheets/data/example_data_001.xlsx"
+wb_path <- "001_read_data/data/001a_example_data.xlsx"
 
 # Get all the sheets in that workbook into a vector
 wb_sheets_all <- excel_sheets(wb_path)
@@ -33,6 +33,6 @@ wb_data_df <- do.call(rbind, wb_data_ls)
 # Write output as csv
 write.csv(
   x = wb_data_df, 
-  file = "001_read_multiple_sheets/output/001_output_data.csv",
+  file = "001_read_data/output/001a_output_data.csv",
   row.names = FALSE
   )
