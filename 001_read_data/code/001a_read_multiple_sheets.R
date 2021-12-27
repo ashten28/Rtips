@@ -47,8 +47,8 @@ out_path <- "001_read_data/output"
 
 # Loop
 lapply(
-  X = wb_sheets_fix,
-  FUN = function(x){
-    write.xlsx(x = as.data.frame(wb_data_df[wb_data_df$LOB == x, ]), file = paste0(out_path, "/001c_output_data_lapply.xlsx"), sheetName = x, row.names = FALSE, append = T)
-  }
-)
+    X = wb_sheets_fix,
+    FUN = function(x){
+      write.xlsx(x = as.data.frame(wb_data_df[wb_data_df$LOB == x, ]), file = paste0(out_path, "/001c_output_data_lapply.xlsx"), sheetName = x, row.names = FALSE, append = T)
+    }
+  )
