@@ -6,6 +6,7 @@
 
 # Loading libraries
 library(readxl)
+library(xlsx)
 
 # Set file path for the workbook with multiple sheet
 wb_path <- "001_read_data/data/001a_example_data.xlsx"
@@ -35,4 +36,19 @@ write.csv(
   x = wb_data_df, 
   file = "001_read_data/output/001a_output_data.csv",
   row.names = FALSE
+  )
+
+# Example 1: Write output as excel
+write.xlsx(x = as.data.frame(wb_data_df[wb_data_df$LOB == "Cargo", ]), file = "001_read_data/output/001c_output_data.xlsx", sheetName = "Cargo", row.names = FALSE, append = T)
+write.xlsx(x = as.data.frame(wb_data_df[wb_data_df$LOB == "Fire", ]) , file = "001_read_data/output/001c_output_data.xlsx", sheetName = "Fire", row.names = FALSE, append = T)
+
+# Example 1: Write output as excel using lapply while setting path variable
+out_path <- "001_read_data/output"
+
+# Loop
+lapply(
+    X = wb_sheets_fix,
+    FUN = function(x){
+      write.xlsx(x = as.data.frame(wb_data_df[wb_data_df$LOB == x, ]), file = paste0(out_path, "/001c_output_data_lapply.xlsx"), sheetName = x, row.names = FALSE, append = T)
+    }
   )
