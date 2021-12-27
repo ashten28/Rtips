@@ -31,21 +31,22 @@ wb_data_ls <-
 # Append all data frames into one data frame
 wb_data_df <- do.call(rbind, wb_data_ls) 
 
-# Write output as csv
+# Example 1: Write output as csv
 write.csv(
   x = wb_data_df, 
   file = "001_read_data/output/001a_output_data.csv",
   row.names = FALSE
   )
 
-# Example 1: Write output as excel
+# Example 2: Write output as excel individually
 write.xlsx(x = as.data.frame(wb_data_df[wb_data_df$LOB == "Cargo", ]), file = "001_read_data/output/001c_output_data.xlsx", sheetName = "Cargo", row.names = FALSE, append = T)
 write.xlsx(x = as.data.frame(wb_data_df[wb_data_df$LOB == "Fire", ]) , file = "001_read_data/output/001c_output_data.xlsx", sheetName = "Fire", row.names = FALSE, append = T)
 
-# Example 1: Write output as excel using lapply while setting path variable
+# Example 3: Write output as excel using lapply while setting path variable
+# Example 3(a): Set output path
 out_path <- "001_read_data/output"
 
-# Loop
+# Example 3(b): Loop data and write one df per sheet
 lapply(
     X = wb_sheets_fix,
     FUN = function(x){
