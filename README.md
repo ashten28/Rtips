@@ -9,3 +9,4 @@ R tips especially for actuarial work
 # Chapter 2: Non Life Loss Reserving in R
 
 - 201 Creating triangles
+- 202 Calculate development factors
