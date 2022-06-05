@@ -58,28 +58,57 @@ paid_data_cum <-
   mutate(cum_paid = cumsum(inc_paid)) %>% 
   ungroup()
 
-# Make triangle
-paid_data_tri_pd <- 
+# Calculate loss development factor
+paid_data_ldf <-  
   paid_data_cum %>% 
+  arrange(class_subclass, acc_yr, dev_yr) %>% 
+  group_by(class_subclass, acc_yr) %>% 
+  mutate(ldf = lead(cum_paid, default = last(cum_paid))/cum_paid) %>% 
+  mutate(cdf_tmp = ldf*lead(ldf, default = 1)) %>% 
+  mutate(cdf = cdf_tmp*lead(cdf_tmp, default = 1)) %>% 
+  ungroup()
+
+# Make ldf triangle
+paid_data_tri_ldf <- 
+  paid_data_ldf %>% 
   pivot_wider(
     id_cols = c(class_subclass, acc_yr),
     names_from = dev_yr,
-    values_from = cum_paid
+    values_from = ldf
   )
 
-# Export triangle
+# Make cdf triangle
+paid_data_tri_cdf <- 
+  paid_data_ldf %>% 
+  pivot_wider(
+    id_cols = c(class_subclass, acc_yr),
+    names_from = dev_yr,
+    values_from = cdf
+  )
+
+# Export ldf triangle
 write.xlsx(
-  x = paid_data_tri_pd, 
-  file = "chap2_nonlife_reserving_r/output/201_output_data.xlsx",
-  sheetName = "motor_pd",
+  x = paid_data_tri_ldf, 
+  file = "chap2_nonlife_reserving_r/output/202_output_data.xlsx",
+  sheetName = "motor_pd_ldf",
   # row.names = FALSE,
   showNA = FALSE
   )
 
-# Export triangle long format
+# Export cdf triangle
 write.xlsx(
-  x = paid_data_cum, 
-  file = "chap2_nonlife_reserving_r/output/201_output_data.xlsx",
+  x = paid_data_tri_cdf, 
+  file = "chap2_nonlife_reserving_r/output/202_output_data.xlsx",
+  sheetName = "motor_pd_cdf",
+  # row.names = FALSE,
+  showNA = FALSE,
+  append = TRUE
+)
+
+# Export long triangle
+write.xlsx(
+  x = paid_data_tri_cdf, 
+  file = "chap2_nonlife_reserving_r/output/202_output_data.xlsx",
   sheetName = "motor_pd_long",
   # row.names = FALSE,
   showNA = FALSE,
