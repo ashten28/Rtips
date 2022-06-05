@@ -8,16 +8,16 @@
 library(readxl)
 
 # List all workbooks in folder
-wb_list <- list.files(path = "001_read_data/data")
+wb_list <- list.files(path = "chap1_import_export_r/data")
 
 # Pick only workbooks to read - only files that starts with 001b
-wb_list_fix <- wb_list[grepl("^001b", wb_list)]
+wb_list_fix <- wb_list[grepl("^102", wb_list)]
 
 # Create function to read one workbook
 func_read_workbook <- function(x) {
   
   # Set file path for the workbook with multiple sheet
-  wb_path <- paste0("001_read_data/data/", x)
+  wb_path <- paste0("chap1_import_export_r/data/", x)
   
   # Get first sheet
   wb_sheets_first <- excel_sheets(wb_path)[1]
@@ -45,7 +45,7 @@ wb_data_df <- do.call(rbind, wb_data_ls)
 # Write output as csv
 write.csv(
   x = wb_data_df, 
-  file = "001_read_data/output/001b_output_data.csv",
+  file = "chap1_import_export_r/output/102_output_data.csv",
   row.names = FALSE
   )
 

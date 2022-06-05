@@ -9,7 +9,7 @@ library(readxl)
 library(xlsx)
 
 # Set file path for the workbook with multiple sheet
-wb_path <- "001_read_data/data/001a_example_data.xlsx"
+wb_path <- "chap1_import_export_r/data/101_example_data.xlsx"
 
 # Get all the sheets in that workbook into a vector
 wb_sheets_all <- excel_sheets(wb_path)
@@ -34,22 +34,22 @@ wb_data_df <- do.call(rbind, wb_data_ls)
 # Example 1: Write output as csv
 write.csv(
   x = wb_data_df, 
-  file = "001_read_data/output/001a_output_data.csv",
+  file = "chap1_import_export_r/output/101a_output_data.csv",
   row.names = FALSE
   )
 
 # Example 2: Write output as excel individually
-write.xlsx(x = as.data.frame(wb_data_df[wb_data_df$LOB == "Cargo", ]), file = "001_read_data/output/001c_output_data.xlsx", sheetName = "Cargo", row.names = FALSE, append = T)
-write.xlsx(x = as.data.frame(wb_data_df[wb_data_df$LOB == "Fire", ]) , file = "001_read_data/output/001c_output_data.xlsx", sheetName = "Fire", row.names = FALSE, append = T)
+write.xlsx(x = as.data.frame(wb_data_df[wb_data_df$LOB == "Cargo", ]), file = "chap1_import_export_r/output/101b_output_data.xlsx", sheetName = "Cargo", row.names = FALSE, append = T)
+write.xlsx(x = as.data.frame(wb_data_df[wb_data_df$LOB == "Fire", ]) , file = "chap1_import_export_r/output/101b_output_data.xlsx", sheetName = "Fire" , row.names = FALSE, append = T)
 
 # Example 3: Write output as excel using lapply while setting path variable
-# Example 3(a): Set output path
-out_path <- "001_read_data/output"
+# Set output path
+out_path <- "chap1_import_export_r/output"
 
-# Example 3(b): Loop data and write one df per sheet
+# Loop data and write one df per sheet
 lapply(
     X = wb_sheets_fix,
     FUN = function(x){
-      write.xlsx(x = as.data.frame(wb_data_df[wb_data_df$LOB == x, ]), file = paste0(out_path, "/001c_output_data_lapply.xlsx"), sheetName = x, row.names = FALSE, append = T)
+      write.xlsx(x = as.data.frame(wb_data_df[wb_data_df$LOB == x, ]), file = paste0(out_path, "/101c_output_data_lapply.xlsx"), sheetName = x, row.names = FALSE, append = T)
     }
   )
